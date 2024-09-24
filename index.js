@@ -1,9 +1,14 @@
 let myLeads = []
 const inputBtn = document.getElementById("input-btn")
+const deleteBtn = document.getElementById("delete-btn")
 const inputEl = document.getElementById("input-el")
+const leadsFromLocalStorage = JSON.parse(localStorage.getItem(("myLeads")))
 const ulEl = document.getElementById("ul-el")
 
-localStorage.clear()
+if (leadsFromLocalStorage) {
+    myLeads = leadsFromLocalStorage
+    renderLeads()
+}
 
 inputEl.addEventListener("keypress", function () {
     if (event.key === "Enter") {
@@ -14,7 +19,16 @@ inputEl.addEventListener("keypress", function () {
 inputBtn.addEventListener("click", function() {
     myLeads.push(inputEl.value)
     inputEl.value = ""
+    localStorage.setItem("myLeads", JSON.stringify(myLeads))
     renderLeads()
+    console.log(localStorage.getItem("myLeads"))
+})
+
+deleteBtn.addEventListener("dblclick", function() {
+    localStorage.clear()
+    myLeads = []
+    renderLeads()
+    console.log(myLeads)
 })
 
 function renderLeads() {
@@ -29,5 +43,4 @@ function renderLeads() {
         `
     }
     ulEl.innerHTML = listItems
-
 }
